@@ -10,17 +10,19 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data @NoArgsConstructor @AllArgsConstructor
-public class BankAccount {
+public abstract class BankAccount {
     @Id
     private String id;
     private String name;
     private double balance;
     private Date createdAt;
     private Date updatedAt;
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
     @ManyToOne
     private BankClient bankClient;
-    @OneToMany(mappedBy = "bankAccount")
+    @OneToMany(mappedBy = "bankAccount",fetch = FetchType.LAZY)
     private List<AccountOperation> accountOperations;
 }
